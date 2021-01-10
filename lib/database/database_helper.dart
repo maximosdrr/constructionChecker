@@ -27,13 +27,14 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute(createTableWork);
+    await db.execute(createTableCheckList);
   }
 
   Future _onOpen(Database db) async {
     // await db.execute(deleteTableWork);
-    // await db.execute(createTableWork);
+    await db.execute(createTableWork);
     // await db.execute(dropTableCheckList);
-    // await db.execute(createTableCheckList);
+    await db.execute(createTableCheckList);
   }
 
   final String deleteTableWork = 'DROP TABLE work';
