@@ -34,7 +34,7 @@ class _WorkItemState extends State<WorkItem> {
     return InkWell(
       onTap: () async {
         _homeController.selectedWork = widget.work;
-        await Modular.to.pushNamed('check_list');
+        await Modular.to.pushNamed('work_dashboard');
       },
       child: Container(
         padding: EdgeInsets.only(

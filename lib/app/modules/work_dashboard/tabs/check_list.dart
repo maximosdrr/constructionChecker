@@ -1,31 +1,25 @@
-import 'package:constructionChecker/app/modules/checkList/widgets/add_check_list_dialog.dart';
-import 'package:constructionChecker/app/modules/checkList/widgets/check_list_item.dart';
-import 'package:constructionChecker/app/modules/home/home_controller.dart';
-import 'package:constructionChecker/models/check_list.dart';
+import 'package:constructionChecker/app/modules/work_dashboard/widgets/check_list_tab/add_check_list_dialog.dart';
+import 'package:constructionChecker/app/modules/work_dashboard/widgets/check_list_tab/check_list_item.dart';
+import 'package:constructionChecker/app/modules/work_dashboard/work_dashboard_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'check_list_controller.dart';
 
-class CheckListPage extends StatefulWidget {
-  final String title;
-  const CheckListPage({Key key, this.title = "CheckList"}) : super(key: key);
+class CheckListTab extends StatefulWidget {
+  const CheckListTab({Key key}) : super(key: key);
 
   @override
-  _CheckListPageState createState() => _CheckListPageState();
+  _CheckListTabState createState() => _CheckListTabState();
 }
 
-class _CheckListPageState
-    extends ModularState<CheckListPage, CheckListController> {
+class _CheckListTabState
+    extends ModularState<CheckListTab, WorkDashboardController> {
   //use 'controller' variable to access controller
-  final _checkListController = Modular.get<CheckListController>();
+  final _checkListController = Modular.get<WorkDashboardController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Coisas para Verificar"),
-      ),
       body: Observer(builder: (_) {
         if (_checkListController.checkLists.status == FutureStatus.pending ||
             _checkListController.checkLists.status == FutureStatus.rejected) {
@@ -66,10 +60,7 @@ class _CheckListPageState
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-              child: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () => Modular.to.pop(),
-              ),
+              height: 45,
             ),
             Container(
               height: 45,

@@ -1,8 +1,14 @@
-import 'package:constructionChecker/app/modules/checkList/check_list_controller.dart';
-import 'package:constructionChecker/app/modules/checkList/check_list_module.dart';
+import 'package:constructionChecker/app/modules/corner_stone/corner_stone_controller.dart';
+import 'package:constructionChecker/app/modules/corner_stone/corner_stone_module.dart';
 import 'package:constructionChecker/app/modules/home/home_controller.dart';
+import 'package:constructionChecker/app/modules/work_dashboard/work_dashboard_controller.dart';
+import 'package:constructionChecker/app/modules/work_dashboard/work_dashboard_module.dart';
 import 'package:constructionChecker/repositories/check_list/check_list_repo.dart';
+import 'package:constructionChecker/repositories/corner_stone/corner_stone_repo.dart';
 import 'package:constructionChecker/repositories/work/work_repo.dart';
+import 'package:constructionChecker/services/check_list/check_list_service.dart';
+import 'package:constructionChecker/services/corner_stone/corner_stone_service.dart';
+import 'package:constructionChecker/services/work/work_service.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'app_controller.dart';
@@ -16,20 +22,28 @@ class AppModule extends MainModule {
   AppModule(this.database);
   @override
   List<Bind> get binds => [
-        $AppController,
         Bind((i) => database),
         //REPOSITORIES
         Bind((i) => WorkRepository(i.get())),
         Bind((i) => CheckListRepo(i.get())),
+        Bind((i) => CornerStoneRepo(i.get())),
+        //SERVICES
+        Bind((i) => WorkService(i.get(), i.get())),
+        Bind((i) => CheckListService(i.get())),
+        Bind((i) => CornerStoneService(i.get())),
+
         //CONTROLLERS
         Bind((i) => HomeController(i.get())),
-        Bind((i) => CheckListController(i.get())),
+        Bind((i) => WorkDashboardController(i.get(), i.get())),
+        Bind((i) => CornerStoneController(i.get())),
+        $AppController,
       ];
 
   @override
   List<ModularRouter> get routers => [
         ModularRouter(Modular.initialRoute, module: HomeModule()),
-        ModularRouter('/check_list', module: CheckListModule()),
+        ModularRouter('/work_dashboard', module: WorkDashboardModule()),
+        ModularRouter('/corner_stone', module: CornerStoneModule()),
       ];
 
   @override

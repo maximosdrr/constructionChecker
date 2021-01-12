@@ -1,4 +1,4 @@
-import 'package:constructionChecker/app/modules/checkList/check_list_controller.dart';
+import 'package:constructionChecker/app/modules/work_dashboard/work_dashboard_controller.dart';
 import 'package:constructionChecker/models/check_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -17,7 +17,7 @@ class CheckListChangeValueDialog extends StatefulWidget {
 
 class _CheckListChangeValueDialogState
     extends State<CheckListChangeValueDialog> {
-  final _checkListController = Modular.get<CheckListController>();
+  final _workDashboardController = Modular.get<WorkDashboardController>();
   @override
   Widget build(BuildContext context) {
     return StatefulBuilder(
@@ -75,8 +75,9 @@ class _CheckListChangeValueDialogState
               FlatButton(
                 child: Text("Salvar"),
                 onPressed: () async {
-                  await _checkListController.update(widget.checkList);
-                  await _checkListController.getCheckLists();
+                  await _workDashboardController
+                      .updateCheckList(widget.checkList);
+                  await _workDashboardController.getCheckLists();
                   Modular.to.pop();
                 },
               ),

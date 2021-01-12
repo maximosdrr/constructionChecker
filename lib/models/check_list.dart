@@ -7,7 +7,6 @@ class ICheckList {
   String description;
   String payAtention;
   String step;
-  String observations;
   ICheckList({
     this.id,
     this.percentageCompleted,
@@ -15,7 +14,6 @@ class ICheckList {
     this.description,
     this.payAtention,
     this.step,
-    this.observations,
   });
 
   ICheckList copyWith({
@@ -25,7 +23,6 @@ class ICheckList {
     String description,
     String payAtention,
     String step,
-    String observations,
   }) {
     return ICheckList(
       id: id ?? this.id,
@@ -34,7 +31,6 @@ class ICheckList {
       description: description ?? this.description,
       payAtention: payAtention ?? this.payAtention,
       step: step ?? this.step,
-      observations: observations ?? this.observations,
     );
   }
 
@@ -46,7 +42,6 @@ class ICheckList {
       'description': description,
       'payAtention': payAtention,
       'step': step,
-      'observations': observations,
     };
   }
 
@@ -60,7 +55,6 @@ class ICheckList {
       description: map['description'],
       payAtention: map['payAtention'],
       step: map['step'],
-      observations: map['observations'],
     );
   }
 
@@ -71,7 +65,7 @@ class ICheckList {
 
   @override
   String toString() {
-    return 'ICheckList(id: $id, percentageCompleted: $percentageCompleted, workId: $workId, description: $description, payAtention: $payAtention, step: $step, observations: $observations)';
+    return 'ICheckList(id: $id, percentageCompleted: $percentageCompleted, workId: $workId, description: $description, payAtention: $payAtention, step: $step)';
   }
 
   @override
@@ -84,8 +78,7 @@ class ICheckList {
         o.workId == workId &&
         o.description == description &&
         o.payAtention == payAtention &&
-        o.step == step &&
-        o.observations == observations;
+        o.step == step;
   }
 
   @override
@@ -95,7 +88,6 @@ class ICheckList {
         workId.hashCode ^
         description.hashCode ^
         payAtention.hashCode ^
-        step.hashCode ^
-        observations.hashCode;
+        step.hashCode;
   }
 }

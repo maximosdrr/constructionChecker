@@ -1,11 +1,11 @@
-import 'package:constructionChecker/app/modules/checkList/check_list_controller.dart';
+import 'package:constructionChecker/app/modules/work_dashboard/work_dashboard_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class DeleteCheckListDialog extends StatelessWidget {
   final id;
   DeleteCheckListDialog({Key key, @required this.id}) : super(key: key);
-  final _checkListController = Modular.get<CheckListController>();
+  final _workDashboardController = Modular.get<WorkDashboardController>();
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -23,8 +23,8 @@ class DeleteCheckListDialog extends StatelessWidget {
         FlatButton(
           child: Text("Apagar"),
           onPressed: () async {
-            await _checkListController.delete(id);
-            await _checkListController.getCheckLists();
+            await _workDashboardController.deleteCheckList(id);
+            await _workDashboardController.getCheckLists();
             Modular.to.pop();
           },
         ),

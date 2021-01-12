@@ -6,16 +6,17 @@ class WorkRepository implements IWorkRepo {
   Database db;
   WorkRepository(this.db);
 
-  Future<bool> insert(IWork work) async {
+  Future<IWork> insert(IWork work) async {
     try {
       if (db.isOpen) {
-        await db.insert('work', work.toMap());
-        return true;
+        var insertId = await db.insert('work', work.toMap());
+        work.id = insertId;
+        return work;
       }
-      return false;
+      return null;
     } catch (e) {
       print(e);
-      return false;
+      return null;
     }
   }
 
@@ -64,15 +65,15 @@ class WorkRepository implements IWorkRepo {
     }
   }
 
-  Future<bool> update(IWork work) async {
+  Future<IWork> update(IWork work) async {
     try {
       if (db.isOpen) {
         await db.update('work', work.toMap(), where: 'id=${work.id}');
-        return true;
+        return work;
       }
-      return false;
+      return null;
     } catch (e) {
-      return false;
+      return null;
     }
   }
 

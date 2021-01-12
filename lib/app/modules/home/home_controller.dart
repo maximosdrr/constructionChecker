@@ -1,8 +1,10 @@
 import 'package:constructionChecker/models/work.dart';
+import 'package:constructionChecker/repositories/check_list/icheck_list_repo.dart';
 import 'package:constructionChecker/repositories/work/Iwork_repo.dart';
+import 'package:constructionChecker/services/work/iwork_service.dart';
+import 'package:constructionChecker/services/work/work_service.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:sqflite/sqflite.dart';
 
 part 'home_controller.g.dart';
 
@@ -10,7 +12,7 @@ part 'home_controller.g.dart';
 class HomeController = _HomeControllerBase with _$HomeController;
 
 abstract class _HomeControllerBase with Store {
-  IWorkRepo workRepository;
+  IWorkService workService;
 
   @observable
   ObservableFuture<List<IWork>> works = ObservableFuture.value([]);
@@ -18,12 +20,12 @@ abstract class _HomeControllerBase with Store {
   @observable
   IWork selectedWork;
 
-  _HomeControllerBase(this.workRepository) {
+  _HomeControllerBase(this.workService) {
     getWorks();
   }
 
   insert(IWork work) async {
-    return await workRepository.insert(work);
+    return await workService.insert(work);
   }
 
   @action
@@ -33,14 +35,14 @@ abstract class _HomeControllerBase with Store {
 
   @action
   getWorks() async {
-    works = workRepository.findMany().asObservable();
+    works = workService.findMany().asObservable();
   }
 
   deleteWork(int id) async {
-    return await workRepository.delete(id);
+    return await workService.deleteWork(id);
   }
 
   editWork(IWork workToEdit) async {
-    return await workRepository.update(workToEdit);
+    return await workService.editWork(workToEdit);
   }
 }

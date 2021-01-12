@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:constructionChecker/app/modules/checkList/widgets/check_list_change_value_dialog.dart';
-import 'package:constructionChecker/app/modules/checkList/widgets/delete_check_list_dialog.dart';
-import 'package:constructionChecker/app/modules/checkList/widgets/edit_check_list_dialog.dart';
+import 'package:constructionChecker/app/modules/work_dashboard/widgets/check_list_tab/check_list_change_value_dialog.dart';
+import 'package:constructionChecker/app/modules/work_dashboard/widgets/check_list_tab/delete_check_list_dialog.dart';
+import 'package:constructionChecker/app/modules/work_dashboard/widgets/check_list_tab/edit_check_list_dialog.dart';
 import 'package:constructionChecker/extensions/hex_to_color.dart';
 import 'package:constructionChecker/models/check_list.dart';
 import 'package:constructionChecker/utils/app_colors.dart';
@@ -43,7 +43,6 @@ class CheckListItem extends StatelessWidget {
                 ),
               ),
               generateCardField(checkList.payAtention, 'Atenção'),
-              generateCardField(checkList.observations, 'Observações'),
               generateCardField(checkList.step, 'Etapa'),
               Container(
                 alignment: Alignment.topLeft,

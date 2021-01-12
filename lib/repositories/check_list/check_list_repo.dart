@@ -5,16 +5,17 @@ import 'package:sqflite/sqflite.dart';
 class CheckListRepo implements ICheckListRepo {
   final Database db;
   CheckListRepo(this.db);
-  Future<bool> insert(ICheckList checkList) async {
+  Future<ICheckList> insert(ICheckList checkList) async {
     try {
       if (db.isOpen) {
-        await db.insert('checkList', checkList.toMap());
-        return true;
+        var insertedId = await db.insert('checkList', checkList.toMap());
+        checkList.id = insertedId;
+        return checkList;
       }
-      return false;
+      return null;
     } catch (e) {
       print(e);
-      return false;
+      return null;
     }
   }
 
@@ -66,16 +67,16 @@ class CheckListRepo implements ICheckListRepo {
     }
   }
 
-  Future<bool> update(ICheckList checkList) async {
+  Future<ICheckList> update(ICheckList checkList) async {
     try {
       if (db.isOpen) {
         await db.update('checkList', checkList.toMap(),
             where: 'id=${checkList.id}');
-        return true;
+        return checkList;
       }
-      return false;
+      return null;
     } catch (e) {
-      return false;
+      return null;
     }
   }
 
@@ -88,6 +89,44 @@ class CheckListRepo implements ICheckListRepo {
       return false;
     } catch (e) {
       return false;
+    }
+  }
+
+  @override
+  Future<List<ICheckList>> completedItens(workId) async {
+    try {
+      if (db.isOpen) {
+        var checkListsSnapshot = await db.query(
+          'checkList',
+          where: 'workId=$workId AND percentageCompleted=100',
+        );
+
+        return checkListsSnapshot
+            .map((checkList) => ICheckList.fromMap(checkList))
+            .toList();
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<ICheckList>> incompletedItens(workId) async {
+    try {
+      if (db.isOpen) {
+        var checkListsSnapshot = await db.query(
+          'checkList',
+          where: 'workId=$workId AND percentageCompleted<100',
+        );
+
+        return checkListsSnapshot
+            .map((checkList) => ICheckList.fromMap(checkList))
+            .toList();
+      }
+      return null;
+    } catch (e) {
+      return null;
     }
   }
 }

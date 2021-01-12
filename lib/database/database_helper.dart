@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:constructionChecker/database/sql.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -26,37 +27,16 @@ class DatabaseHelper {
   }
 
   Future _onCreate(Database db, int version) async {
-    await db.execute(createTableWork);
-    await db.execute(createTableCheckList);
+    await db.execute(DatabaseSql.createTableWork);
+    await db.execute(DatabaseSql.createTableCheckList);
+    await db.execute(DatabaseSql.createTableCornerStone);
   }
 
   Future _onOpen(Database db) async {
     // await db.execute(deleteTableWork);
-    await db.execute(createTableWork);
+    // await db.execute(createTableWork);
     // await db.execute(dropTableCheckList);
-    await db.execute(createTableCheckList);
+    // await db.execute(createTableCheckList);
+    await db.execute(DatabaseSql.createTableCornerStone);
   }
-
-  final String deleteTableWork = 'DROP TABLE work';
-
-  final String createTableWork = 'CREATE TABLE IF NOT EXISTS work' +
-      '(' +
-      'id INTEGER PRIMARY KEY,' +
-      'name TEXT,' +
-      'client TEXT,' +
-      'constructionArea TEXT,' +
-      'artNumber TEXT,' +
-      'initDate INTEGER' +
-      ')';
-  final String createTableCheckList = 'CREATE TABLE IF NOT EXISTS checkList' +
-      '(' +
-      'id INTEGER PRIMARY KEY,' +
-      'percentageCompleted INTEGER,' +
-      'description TEXT,' +
-      'payAtention TEXT,' +
-      'step TEXT,' +
-      'observations TEXT,' +
-      'workId INTEGER' +
-      ')';
-  final String dropTableCheckList = 'DROP TABLE checkList';
 }
