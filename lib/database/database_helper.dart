@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
-  static final _dbName = 'constructionCheckerApp1.db';
+  static final _dbName = 'constructionCheckerApp2.db';
   static final _version = 2;
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
   DatabaseHelper._privateConstructor();

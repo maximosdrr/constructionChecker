@@ -23,9 +23,11 @@ class WorkCornerStoneRepo implements IWorkCornerStoneRepo {
   @override
   Future<IAvg> getCornerStoneAvg(workId, cornerStoneId) async {
     try {
+      print(workId);
+      print(cornerStoneId);
       if (db.isOpen) {
         var result = await db.rawQuery(
-            'SELECT avg(grade) as value FROM workCornerStone WHERE cornerStoneId=$cornerStoneId GROUP BY workId');
+            'SELECT avg(grade) as value FROM workCornerStone WHERE workId=$workId AND cornerStoneId=$cornerStoneId GROUP BY cornerStoneId');
         if (result[0] != null) {
           var avgMap = result[0];
           return IAvg.fromMap(avgMap);
