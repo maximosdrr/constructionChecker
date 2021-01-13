@@ -5,8 +5,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
-  static final _dbName = 'constructionCheckerApp.db';
-  static final _version = 1;
+  static final _dbName = 'constructionCheckerApp1.db';
+  static final _version = 2;
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
   DatabaseHelper._privateConstructor();
 
@@ -30,13 +30,20 @@ class DatabaseHelper {
     await db.execute(DatabaseSql.createTableWork);
     await db.execute(DatabaseSql.createTableCheckList);
     await db.execute(DatabaseSql.createTableCornerStone);
+    await db.execute(DatabaseSql.createTableWorkCornerStone);
   }
 
   Future _onOpen(Database db) async {
-    // await db.execute(deleteTableWork);
-    // await db.execute(createTableWork);
-    // await db.execute(dropTableCheckList);
-    // await db.execute(createTableCheckList);
-    await db.execute(DatabaseSql.createTableCornerStone);
+    // DROP TABLES
+    // await db.execute(DatabaseSql.dropTableCheckList);
+    // await db.execute(DatabaseSql.dropTableWorkCornerStone);
+    // await db.execute(DatabaseSql.dropTableWork);
+    // await db.execute(DatabaseSql.dropTableConerStone);
+
+    // // CREATE TABLES
+    // await db.execute(DatabaseSql.createTableWork);
+    // await db.execute(DatabaseSql.createTableCornerStone);
+    // await db.execute(DatabaseSql.createTableCheckList);
+    // await db.execute(DatabaseSql.createTableWorkCornerStone);
   }
 }

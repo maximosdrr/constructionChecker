@@ -51,7 +51,7 @@ class EditCornerStoneDialog extends StatelessWidget {
                 id: cornerStone.id,
                 name: _nameController.text,
               );
-
+              print(cornerStone.id);
               await _cornerStoneController
                   .updateCornerStone(_cornerStoneToUpdate);
               await _cornerStoneController.getCornerStones();

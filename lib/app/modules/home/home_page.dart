@@ -1,5 +1,6 @@
 import 'package:constructionChecker/app/modules/home/widgets/add_work_dialog.dart';
 import 'package:constructionChecker/app/modules/home/widgets/work_item.dart';
+import 'package:constructionChecker/app/modules/work_dashboard/work_dashboard_controller.dart';
 import 'package:constructionChecker/extensions/hex_to_color.dart';
 import 'package:constructionChecker/utils/app_colors.dart';
 import 'package:flutter/material.dart';

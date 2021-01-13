@@ -1,5 +1,5 @@
 class DatabaseSql {
-  static final String deleteTableWork = 'DROP TABLE work';
+  static final String dropTableWork = 'DROP TABLE work';
 
   static final String createTableWork = 'CREATE TABLE IF NOT EXISTS work' +
       '(' +
@@ -18,8 +18,9 @@ class DatabaseSql {
           'description TEXT,' +
           'payAtention TEXT,' +
           'step TEXT,' +
-          'workId INTEGER' +
-          ')';
+          'workId INTEGER,' +
+          'FOREIGN KEY (workId) REFERENCES work(id) ON DELETE CASCADE'
+              ')';
   static final String dropTableCheckList = 'DROP TABLE checkList';
 
   static final createTableCornerStone =
@@ -28,5 +29,18 @@ class DatabaseSql {
               'id INTEGER PRIMARY KEY,' +
           'name TEXT' +
           ')';
-  static final deleteTableConerStone = 'DROP TABLE cornerStone';
+  static final dropTableConerStone = 'DROP TABLE cornerStone';
+
+  static final createTableWorkCornerStone =
+      'CREATE TABLE IF NOT EXISTS workCornerStone' +
+          '(' +
+          'id INTEGER PRIMARY KEY,' +
+          'workId INTEGER,' +
+          'cornerStoneId INTEGER,' +
+          'grade REAL,' +
+          'savedAt INTEGER,' +
+          'FOREIGN KEY (workId) REFERENCES work(id) ON DELETE CASCADE ON UPDATE CASCADE,' +
+          'FOREIGN KEY (cornerStoneId) REFERENCES cornerStone(id) ON DELETE CASCADE' +
+          ')';
+  static final dropTableWorkCornerStone = 'DROP TABLE workCornerStone';
 }

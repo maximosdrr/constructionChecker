@@ -57,6 +57,7 @@ class CornerStoneRepo implements IConerStoneRepo {
       }
       return null;
     } catch (e) {
+      print(e);
       return null;
     }
   }

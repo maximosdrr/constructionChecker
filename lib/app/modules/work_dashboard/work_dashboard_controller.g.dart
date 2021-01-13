@@ -7,7 +7,8 @@ part of 'work_dashboard_controller.dart';
 // **************************************************************************
 
 final $WorkDashboardController = BindInject(
-  (i) => WorkDashboardController(i<ICheckListService>(), i<IWorkService>()),
+  (i) => WorkDashboardController(i<ICheckListService>(), i<IWorkService>(),
+      i<IWorkCornerStoneService>(), i<ICornerStoneService>()),
   singleton: true,
   lazy: true,
 );
@@ -19,38 +20,6 @@ final $WorkDashboardController = BindInject(
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$WorkDashboardController on _WorkDashboardControllerBase, Store {
-  final _$completedItensAtom =
-      Atom(name: '_WorkDashboardControllerBase.completedItens');
-
-  @override
-  ObservableFuture<List<ICheckList>> get completedItens {
-    _$completedItensAtom.reportRead();
-    return super.completedItens;
-  }
-
-  @override
-  set completedItens(ObservableFuture<List<ICheckList>> value) {
-    _$completedItensAtom.reportWrite(value, super.completedItens, () {
-      super.completedItens = value;
-    });
-  }
-
-  final _$incompletedItensAtom =
-      Atom(name: '_WorkDashboardControllerBase.incompletedItens');
-
-  @override
-  ObservableFuture<List<ICheckList>> get incompletedItens {
-    _$incompletedItensAtom.reportRead();
-    return super.incompletedItens;
-  }
-
-  @override
-  set incompletedItens(ObservableFuture<List<ICheckList>> value) {
-    _$incompletedItensAtom.reportWrite(value, super.incompletedItens, () {
-      super.incompletedItens = value;
-    });
-  }
-
   final _$checkListsAtom =
       Atom(name: '_WorkDashboardControllerBase.checkLists');
 
@@ -67,6 +36,55 @@ mixin _$WorkDashboardController on _WorkDashboardControllerBase, Store {
     });
   }
 
+  final _$workCornerStonesAtom =
+      Atom(name: '_WorkDashboardControllerBase.workCornerStones');
+
+  @override
+  ObservableFuture<List<IWorkCornerStone>> get workCornerStones {
+    _$workCornerStonesAtom.reportRead();
+    return super.workCornerStones;
+  }
+
+  @override
+  set workCornerStones(ObservableFuture<List<IWorkCornerStone>> value) {
+    _$workCornerStonesAtom.reportWrite(value, super.workCornerStones, () {
+      super.workCornerStones = value;
+    });
+  }
+
+  final _$cornerStonesAvgAtom =
+      Atom(name: '_WorkDashboardControllerBase.cornerStonesAvg');
+
+  @override
+  ObservableFuture<List<ICornerStoneAvg>> get cornerStonesAvg {
+    _$cornerStonesAvgAtom.reportRead();
+    return super.cornerStonesAvg;
+  }
+
+  @override
+  set cornerStonesAvg(ObservableFuture<List<ICornerStoneAvg>> value) {
+    _$cornerStonesAvgAtom.reportWrite(value, super.cornerStonesAvg, () {
+      super.cornerStonesAvg = value;
+    });
+  }
+
+  final _$selectedCornerStoneAvgAtom =
+      Atom(name: '_WorkDashboardControllerBase.selectedCornerStoneAvg');
+
+  @override
+  ICornerStoneAvg get selectedCornerStoneAvg {
+    _$selectedCornerStoneAvgAtom.reportRead();
+    return super.selectedCornerStoneAvg;
+  }
+
+  @override
+  set selectedCornerStoneAvg(ICornerStoneAvg value) {
+    _$selectedCornerStoneAvgAtom
+        .reportWrite(value, super.selectedCornerStoneAvg, () {
+      super.selectedCornerStoneAvg = value;
+    });
+  }
+
   final _$getCheckListsAsyncAction =
       AsyncAction('_WorkDashboardControllerBase.getCheckLists');
 
@@ -75,30 +93,35 @@ mixin _$WorkDashboardController on _WorkDashboardControllerBase, Store {
     return _$getCheckListsAsyncAction.run(() => super.getCheckLists());
   }
 
-  final _$getCompletedCheckListsAsyncAction =
-      AsyncAction('_WorkDashboardControllerBase.getCompletedCheckLists');
+  final _$getCornerStoneAvgAsyncAction =
+      AsyncAction('_WorkDashboardControllerBase.getCornerStoneAvg');
 
   @override
-  Future getCompletedCheckLists() {
-    return _$getCompletedCheckListsAsyncAction
-        .run(() => super.getCompletedCheckLists());
+  Future getCornerStoneAvg() {
+    return _$getCornerStoneAvgAsyncAction.run(() => super.getCornerStoneAvg());
   }
 
-  final _$getIncompletedCheckListsAsyncAction =
-      AsyncAction('_WorkDashboardControllerBase.getIncompletedCheckLists');
+  final _$_WorkDashboardControllerBaseActionController =
+      ActionController(name: '_WorkDashboardControllerBase');
 
   @override
-  Future getIncompletedCheckLists() {
-    return _$getIncompletedCheckListsAsyncAction
-        .run(() => super.getIncompletedCheckLists());
+  dynamic getWorkCornerStones() {
+    final _$actionInfo = _$_WorkDashboardControllerBaseActionController
+        .startAction(name: '_WorkDashboardControllerBase.getWorkCornerStones');
+    try {
+      return super.getWorkCornerStones();
+    } finally {
+      _$_WorkDashboardControllerBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
   String toString() {
     return '''
-completedItens: ${completedItens},
-incompletedItens: ${incompletedItens},
-checkLists: ${checkLists}
+checkLists: ${checkLists},
+workCornerStones: ${workCornerStones},
+cornerStonesAvg: ${cornerStonesAvg},
+selectedCornerStoneAvg: ${selectedCornerStoneAvg}
     ''';
   }
 }

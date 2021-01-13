@@ -18,6 +18,7 @@ class CornerStoneItem extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        // subtitle: Text(cornerStone.id.toString()),
         trailing: Container(
           width: 100,
           child: Row(
