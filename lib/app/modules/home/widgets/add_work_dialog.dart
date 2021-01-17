@@ -42,7 +42,7 @@ class _AddWorkDialogState extends State<AddWorkDialog> {
           child: Column(
             children: [
               AppTextField(
-                hintText: 'Nome do Serviço',
+                hintText: 'Obra',
                 controller: _nameController,
                 validator: (String value) {
                   if (value.length < 3) {
@@ -63,7 +63,7 @@ class _AddWorkDialogState extends State<AddWorkDialog> {
                     return null;
                   }),
               AppTextField(
-                  hintText: 'Área de Construção',
+                  hintText: 'Área Construida',
                   controller: _constructionAreaController,
                   validator: (String value) {
                     if (value.length < 3) {
@@ -73,7 +73,7 @@ class _AddWorkDialogState extends State<AddWorkDialog> {
                     return null;
                   }),
               AppTextField(
-                  hintText: 'Número ART',
+                  hintText: 'Nº DA ART',
                   controller: _artNumberController,
                   validator: (String value) {
                     if (value.isEmpty) {

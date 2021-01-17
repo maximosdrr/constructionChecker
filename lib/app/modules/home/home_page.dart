@@ -71,7 +71,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
               subtitle: Text("Gerar Relatorio"),
               trailing: Icon(Icons.article),
               onTap: () {
-                debugPrint('TAP');
+                Modular.to.pushNamed('/reports');
                 // Modular.to.pushNamed('/reports');
               },
             ),
