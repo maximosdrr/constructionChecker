@@ -1,8 +1,10 @@
 import 'dart:io';
-
+import 'package:date_format/date_format.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'package:constructionChecker/models/report.dart';
 import 'package:downloads_path_provider/downloads_path_provider.dart';
-import 'package:pdf/widgets.dart' as pw;
 
 class PdfService {
   save(IReport report) async {
@@ -10,99 +12,266 @@ class PdfService {
       Directory downloadsDirectory =
           await DownloadsPathProvider.downloadsDirectory;
       final pdf = pw.Document();
-      pdf.addPage(build(pdf, report));
 
-      final file = File(
-          "${downloadsDirectory.path}/relatorio_diario_${DateTime.now().millisecond}.pdf");
-      await file.writeAsBytes(await pdf.save());
+      build(pdf, report);
+
+      File('${downloadsDirectory.path}/relatorio${DateTime.now().millisecond}.pdf')
+          .writeAsBytes(await pdf.save());
+      // .writeAsBytes();
+
       return true;
     } catch (e) {
+      print(e);
       return false;
     }
   }
 
-  pw.Page build(pw.Document pdf, IReport report) {
-    return pw.Page(
-      build: (pw.Context context) {
-        return pw.Container(
+  build(pw.Document pdf, IReport report) {
+    pdf.addPage(
+      pw.MultiPage(
+        maxPages: 100,
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return [
+            pw.Column(
+              children: [
+                pw.Container(
+                  margin: pw.EdgeInsets.only(
+                    bottom: 30,
+                  ),
+                  child: pw.Text(
+                    'Relatorio da Obra',
+                    textAlign: pw.TextAlign.center,
+                    style: pw.TextStyle(
+                      fontSize: 26,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                ),
+                pw.Container(
+                  alignment: pw.Alignment.topLeft,
+                  margin: pw.EdgeInsets.only(
+                    bottom: 30,
+                  ),
+                  child: pw.Text(
+                    'Jhonatan Mike R. Cordeiro',
+                    textAlign: pw.TextAlign.justify,
+                    style: pw.TextStyle(
+                      fontSize: 16,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                ),
+                generateLabelText('Obra', report.obra),
+                generateLabelText('Contratante', report.contratante),
+                generateLabelText('Nº Contrato', report.numeroContrato),
+                generateLabelText('Nº RDO', report.numeroRdo),
+                generateLabelText('Prazo Contratual', report.prazoContratual),
+                generateLabelText('Prazo Decorrido', report.prazoDecorrido),
+                generateLabelText('Prazo a Vencer', report.prazoVencer),
+                generateLabelText(
+                  'Contratante',
+                  formatDate(report.data, [dd, '/', mm, '/', yyyy]),
+                ),
+                generateLabelText('Clima', report.clima),
+                generateLabelText('Condição', report.condicao),
+                generateLabelText('Comentarios', report.comentarios),
+                generateLabelText('Observações', report.observacoes),
+              ],
+            ),
+            pw.Container(
+              alignment: pw.Alignment.topLeft,
+              margin: pw.EdgeInsets.only(
+                bottom: 20,
+                top: 20,
+              ),
+              child: pw.Text(
+                "Mão de Obra",
+                style: pw.TextStyle(
+                  fontSize: 18,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+            ),
+            generateMaoDeObra(report.maoDeObra),
+            pw.Container(
+              alignment: pw.Alignment.topLeft,
+              margin: pw.EdgeInsets.only(
+                bottom: 20,
+                top: 20,
+              ),
+              child: pw.Text(
+                "Andamento da Obra",
+                style: pw.TextStyle(
+                  fontSize: 18,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+            ),
+            generateStatus(report.status),
+            pw.Container(
+              alignment: pw.Alignment.topLeft,
+              margin: pw.EdgeInsets.only(
+                bottom: 20,
+                top: 20,
+              ),
+              child: pw.Text(
+                "Materiais Recebidos",
+                style: pw.TextStyle(
+                  fontSize: 18,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+            ),
+            generateMaterialRecebido(report.materiaisRecebidos),
+            generateAddedImages(report),
+          ];
+        },
+      ),
+    );
+  }
+
+  pw.Column generateMaterialRecebido(List<String> materiaisRecebidos) {
+    List<pw.Container> containers = [];
+    for (var material in materiaisRecebidos) {
+      containers.add(
+        pw.Container(
+          padding: pw.EdgeInsets.all(20),
+          decoration: pw.BoxDecoration(
+            border: pw.Border.all(
+              width: 2,
+            ),
+          ),
           child: pw.Column(
             children: [
               pw.Container(
+                alignment: pw.Alignment.topLeft,
                 child: pw.Text(
-                  "Relatorio Diario de Obra",
+                  "Material: ${material}",
                   style: pw.TextStyle(
-                    fontSize: 24,
-                    fontWeight: pw.FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    return pw.Column(children: containers);
+  }
+
+  pw.Column generateStatus(List<Status> status) {
+    List<pw.Container> containers = [];
+    for (var statu in status) {
+      containers.add(
+        pw.Container(
+          padding: pw.EdgeInsets.all(20),
+          decoration: pw.BoxDecoration(
+            border: pw.Border.all(
+              width: 2,
+            ),
+          ),
+          child: pw.Column(
+            children: [
+              pw.Container(
+                alignment: pw.Alignment.topLeft,
+                child: pw.Text(
+                  "Andar: ${statu.andar}",
+                  style: pw.TextStyle(
+                    fontSize: 18,
                   ),
                 ),
               ),
               pw.Container(
-                margin: pw.EdgeInsets.only(
-                  top: 30,
-                  bottom: 30,
-                ),
                 alignment: pw.Alignment.topLeft,
                 child: pw.Text(
-                  "JMRC ENGENHARIA",
+                  "Descrição: ${statu.description}",
+                  style: pw.TextStyle(
+                    fontSize: 18,
+                  ),
                 ),
               ),
-              createKeyValueFild('Obra', report.obra),
-              createKeyValueFild('Contratante', report.contratante),
-              createKeyValueFild('Numero do Contrato', report.numeroContrato),
-              createKeyValueFild('Prazo Contratual', report.prazoContratual),
-              createKeyValueFild('Prazo Decorrido', report.prazoDecorrido),
-              createKeyValueFild('Prazo a Vencer', report.prazoVencer),
-              createKeyValueFild('Clima', report.clima),
-              createKeyValueFild('Condição', report.condicao),
-              createListView('Observações', report.observacoes),
+              pw.Container(
+                alignment: pw.Alignment.topLeft,
+                child: pw.Text(
+                  "Execução: ${statu.porcentagemDeExecucao}%",
+                  style: pw.TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              pw.Container(
+                alignment: pw.Alignment.topLeft,
+                child: pw.Text(
+                  "Status: ${statu.status}",
+                  style: pw.TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
             ],
           ),
-        );
-      },
-    );
+        ),
+      );
+    }
+    return pw.Column(children: containers);
   }
 
-  createListView(String label, List<String> list) {
-    return pw.Column(
-      children: [
+  pw.Column generateMaoDeObra(List<MaoDeObra> maoDeObras) {
+    List<pw.Container> containers = [];
+    for (var maoDeObra in maoDeObras) {
+      containers.add(
         pw.Container(
-          child: pw.Text(
-            label,
-            style: pw.TextStyle(
-              fontSize: 22,
-              fontWeight: pw.FontWeight.bold,
+          padding: pw.EdgeInsets.all(20),
+          decoration: pw.BoxDecoration(
+            border: pw.Border.all(
+              width: 2,
             ),
           ),
-        ),
-        pw.ListView.builder(
-          itemCount: list.length,
-          itemBuilder: (context, i) {
-            return pw.Container(
-              child: pw.Column(
-                children: [
-                  pw.Text(
-                    list[i],
-                    style: pw.TextStyle(
-                      fontSize: 18,
-                      fontWeight: pw.FontWeight.normal,
-                    ),
+          child: pw.Column(
+            children: [
+              pw.Container(
+                alignment: pw.Alignment.topLeft,
+                child: pw.Text(
+                  "Descrição: ${maoDeObra.descricao}",
+                  style: pw.TextStyle(
+                    fontSize: 18,
                   ),
-                  pw.Text("\n"),
-                ],
+                ),
               ),
-            );
-          },
-        )
-      ],
-    );
+              pw.Container(
+                alignment: pw.Alignment.topLeft,
+                child: pw.Text(
+                  "Categoria: ${maoDeObra.categoria}",
+                  style: pw.TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              pw.Container(
+                alignment: pw.Alignment.topLeft,
+                child: pw.Text(
+                  "Quantidade: ${maoDeObra.quantidade}",
+                  style: pw.TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    return pw.Column(children: containers);
   }
 
-  createKeyValueFild(String key, String value) {
+  pw.Container generateLabelText(String label, String text) {
     return pw.Container(
-      padding: pw.EdgeInsets.all(10),
+      padding: pw.EdgeInsets.all(20),
       decoration: pw.BoxDecoration(
         border: pw.Border.all(
-          width: 1,
+          width: 2,
         ),
       ),
       child: pw.Column(
@@ -110,7 +279,7 @@ class PdfService {
           pw.Container(
             alignment: pw.Alignment.topLeft,
             child: pw.Text(
-              key,
+              label,
               style: pw.TextStyle(
                 fontSize: 22,
                 fontWeight: pw.FontWeight.bold,
@@ -120,15 +289,54 @@ class PdfService {
           pw.Container(
             alignment: pw.Alignment.topLeft,
             child: pw.Text(
-              value,
+              text,
               style: pw.TextStyle(
                 fontSize: 18,
-                fontWeight: pw.FontWeight.normal,
               ),
             ),
-          )
+          ),
         ],
       ),
+    );
+  }
+
+  pw.Column generateAddedImages(IReport report) {
+    List<pw.Widget> images = [];
+    print(report.fotosAdicionadas.length);
+    for (var addedImage in report.fotosAdicionadas) {
+      final image = pw.MemoryImage(
+        addedImage.imagem.readAsBytesSync(),
+      );
+
+      // pw.RawImage(bytes: decodeUin)
+      var imageColumn = pw.Column(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: [
+          pw.Container(
+            margin: pw.EdgeInsets.all(30),
+            alignment: pw.Alignment.center,
+            child: pw.Image(
+              image,
+              fit: pw.BoxFit.fill,
+              width: 450,
+              height: 500,
+            ),
+          ),
+          pw.Container(
+            child: pw.Text(
+              addedImage.descricao,
+              style: pw.TextStyle(
+                fontSize: 18,
+              ),
+            ),
+          ),
+        ],
+      );
+      images.add(imageColumn);
+    }
+
+    return pw.Column(
+      children: images,
     );
   }
 }

@@ -44,6 +44,8 @@ dependencies:
   image: ^2.1.19
   pdf: ^2.0.0
   flutter_html_to_pdf:
+  image_picker: ^0.6.7+21
+  flushbar:
   flutter:
     sdk: flutter
 

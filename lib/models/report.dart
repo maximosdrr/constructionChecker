@@ -14,12 +14,13 @@ class IReport {
   String contratante;
   String clima;
   String condicao;
+  String observacoes;
+  String comentarios;
   DateTime data;
 
   List<MaoDeObra> maoDeObra;
   List<Status> status;
-  List<String> observacoes;
-  List<String> comentarios;
+
   List<String> materiaisRecebidos;
   List<FotoAdicionada> fotosAdicionadas;
   IReport({
@@ -33,11 +34,11 @@ class IReport {
     this.contratante,
     this.clima,
     this.condicao,
+    this.observacoes,
+    this.comentarios,
     this.data,
     this.maoDeObra,
     this.status,
-    this.observacoes,
-    this.comentarios,
     this.materiaisRecebidos,
     this.fotosAdicionadas,
   });
@@ -53,11 +54,11 @@ class IReport {
     String contratante,
     String clima,
     String condicao,
+    String observacoes,
+    String comentarios,
     DateTime data,
     List<MaoDeObra> maoDeObra,
     List<Status> status,
-    List<String> observacoes,
-    List<String> comentarios,
     List<String> materiaisRecebidos,
     List<FotoAdicionada> fotosAdicionadas,
   }) {
@@ -72,11 +73,11 @@ class IReport {
       contratante: contratante ?? this.contratante,
       clima: clima ?? this.clima,
       condicao: condicao ?? this.condicao,
+      observacoes: observacoes ?? this.observacoes,
+      comentarios: comentarios ?? this.comentarios,
       data: data ?? this.data,
       maoDeObra: maoDeObra ?? this.maoDeObra,
       status: status ?? this.status,
-      observacoes: observacoes ?? this.observacoes,
-      comentarios: comentarios ?? this.comentarios,
       materiaisRecebidos: materiaisRecebidos ?? this.materiaisRecebidos,
       fotosAdicionadas: fotosAdicionadas ?? this.fotosAdicionadas,
     );
@@ -94,11 +95,11 @@ class IReport {
       'contratante': contratante,
       'clima': clima,
       'condicao': condicao,
+      'observacoes': observacoes,
+      'comentarios': comentarios,
       'data': data?.millisecondsSinceEpoch,
       'maoDeObra': maoDeObra?.map((x) => x?.toMap())?.toList(),
       'status': status?.map((x) => x?.toMap())?.toList(),
-      'observacoes': observacoes,
-      'comentarios': comentarios,
       'materiaisRecebidos': materiaisRecebidos,
       // 'fotosAdicionadas': fotosAdicionadas?.map((x) => x?.toMap())?.toList(),
     };
@@ -118,14 +119,15 @@ class IReport {
       contratante: map['contratante'],
       clima: map['clima'],
       condicao: map['condicao'],
+      observacoes: map['observacoes'],
+      comentarios: map['comentarios'],
       data: DateTime.fromMillisecondsSinceEpoch(map['data']),
       maoDeObra: List<MaoDeObra>.from(
           map['maoDeObra']?.map((x) => MaoDeObra.fromMap(x))),
       status: List<Status>.from(map['status']?.map((x) => Status.fromMap(x))),
-      observacoes: List<String>.from(map['observacoes']),
-      comentarios: List<String>.from(map['comentarios']),
       materiaisRecebidos: List<String>.from(map['materiaisRecebidos']),
-      // fotosAdicionadas: List<FotoAdicionada>.from(map['fotosAdicionadas']?.map((x) => FotoAdicionada.fromMap(x))),
+      // fotosAdicionadas: List<FotoAdicionada>.from(
+      // map['fotosAdicionadas']?.map((x) => FotoAdicionada.fromMap(x))),
     );
   }
 
@@ -136,7 +138,7 @@ class IReport {
 
   @override
   String toString() {
-    return 'IReport(numeroRdo: $numeroRdo, numeroContrato: $numeroContrato, prazoContratual: $prazoContratual, prazoDecorrido: $prazoDecorrido, prazoVencer: $prazoVencer, obra: $obra, local: $local, contratante: $contratante, clima: $clima, condicao: $condicao, data: $data, maoDeObra: $maoDeObra, status: $status, observacoes: $observacoes, comentarios: $comentarios, materiaisRecebidos: $materiaisRecebidos, fotosAdicionadas: $fotosAdicionadas)';
+    return 'IReport(numeroRdo: $numeroRdo, numeroContrato: $numeroContrato, prazoContratual: $prazoContratual, prazoDecorrido: $prazoDecorrido, prazoVencer: $prazoVencer, obra: $obra, local: $local, contratante: $contratante, clima: $clima, condicao: $condicao, observacoes: $observacoes, comentarios: $comentarios, data: $data, maoDeObra: $maoDeObra, status: $status, materiaisRecebidos: $materiaisRecebidos, fotosAdicionadas: $fotosAdicionadas)';
   }
 
   @override
@@ -154,11 +156,11 @@ class IReport {
         o.contratante == contratante &&
         o.clima == clima &&
         o.condicao == condicao &&
+        o.observacoes == observacoes &&
+        o.comentarios == comentarios &&
         o.data == data &&
         listEquals(o.maoDeObra, maoDeObra) &&
         listEquals(o.status, status) &&
-        listEquals(o.observacoes, observacoes) &&
-        listEquals(o.comentarios, comentarios) &&
         listEquals(o.materiaisRecebidos, materiaisRecebidos) &&
         listEquals(o.fotosAdicionadas, fotosAdicionadas);
   }
@@ -175,11 +177,11 @@ class IReport {
         contratante.hashCode ^
         clima.hashCode ^
         condicao.hashCode ^
+        observacoes.hashCode ^
+        comentarios.hashCode ^
         data.hashCode ^
         maoDeObra.hashCode ^
         status.hashCode ^
-        observacoes.hashCode ^
-        comentarios.hashCode ^
         materiaisRecebidos.hashCode ^
         fotosAdicionadas.hashCode;
   }
