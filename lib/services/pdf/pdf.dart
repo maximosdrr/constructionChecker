@@ -1,23 +1,37 @@
 import 'dart:io';
 import 'package:date_format/date_format.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:ext_storage/ext_storage.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:constructionChecker/models/report.dart';
-import 'package:downloads_path_provider/downloads_path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class PdfService {
+  Future<String> _getPathToDownload() async {
+    return ExtStorage.getExternalStoragePublicDirectory(
+      ExtStorage.DIRECTORY_DOWNLOADS,
+    );
+  }
+
+  Future _permissionHandler() async {
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
+  }
+
   save(IReport report) async {
     try {
-      Directory downloadsDirectory =
-          await DownloadsPathProvider.downloadsDirectory;
+      await _permissionHandler();
+      String downloadsDirectory = await _getPathToDownload();
+      String docId = DateTime.now().millisecond.toString();
+
       final pdf = pw.Document();
 
       build(pdf, report);
 
-      File('${downloadsDirectory.path}/relatorio${DateTime.now().millisecond}.pdf')
+      File('$downloadsDirectory/relatorio$docId.pdf')
           .writeAsBytes(await pdf.save());
-      // .writeAsBytes();
 
       return true;
     } catch (e) {
@@ -70,7 +84,7 @@ class PdfService {
                 generateLabelText('Prazo Decorrido', report.prazoDecorrido),
                 generateLabelText('Prazo a Vencer', report.prazoVencer),
                 generateLabelText(
-                  'Contratante',
+                  'Data',
                   formatDate(report.data, [dd, '/', mm, '/', yyyy]),
                 ),
                 generateLabelText('Clima', report.clima),

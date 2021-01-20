@@ -40,11 +40,11 @@ dependencies:
   date_format: ^1.0.9
   flutter_rating_bar: ^3.2.0+1
   flutter_spinbox: ^0.3.1+2
-  downloads_path_provider: ^0.1.0
   image: ^2.1.19
   pdf: ^2.0.0
-  flutter_html_to_pdf:
   image_picker: ^0.6.7+21
+  ext_storage: ^1.0.3
+  permission_handler: ^5.0.1+1
   flushbar:
   flutter:
     sdk: flutter

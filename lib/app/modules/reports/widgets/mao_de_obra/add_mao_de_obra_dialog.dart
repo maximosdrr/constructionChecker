@@ -39,7 +39,7 @@ class AddMaoDeObraDialog extends StatelessWidget {
             Container(
               child: SpinBox(
                 min: 0,
-                max: 5,
+                max: 12131235,
                 value: 0,
                 decimals: 1,
                 step: 1,
