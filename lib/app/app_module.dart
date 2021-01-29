@@ -2,6 +2,8 @@ import 'package:constructionChecker/app/modules/corner_stone/corner_stone_contro
 import 'package:constructionChecker/app/modules/corner_stone/corner_stone_module.dart';
 import 'package:constructionChecker/app/modules/corner_stone_history/corner_stone_history_module.dart';
 import 'package:constructionChecker/app/modules/home/home_controller.dart';
+import 'package:constructionChecker/app/modules/material_requirement/material_requirement_controller.dart';
+import 'package:constructionChecker/app/modules/material_requirement/material_requirement_module.dart';
 import 'package:constructionChecker/app/modules/reports/reports_controller.dart';
 import 'package:constructionChecker/app/modules/reports/reports_module.dart';
 import 'package:constructionChecker/app/modules/work_dashboard/work_dashboard_controller.dart';
@@ -12,7 +14,9 @@ import 'package:constructionChecker/repositories/work/work_repo.dart';
 import 'package:constructionChecker/repositories/work_corner_stone/work_corner_stone_repo.dart';
 import 'package:constructionChecker/services/check_list/check_list_service.dart';
 import 'package:constructionChecker/services/corner_stone/corner_stone_service.dart';
-import 'package:constructionChecker/services/pdf/pdf.dart';
+import 'package:constructionChecker/services/material_requirement_pdf/material_requirement_pdf_service.dart';
+import 'package:constructionChecker/services/progression_pdf/progression_pdf.dart';
+import 'package:constructionChecker/services/report_pdf/pdf.dart';
 import 'package:constructionChecker/services/work/work_service.dart';
 import 'package:constructionChecker/services/work_corner_stone/work_corner_stone_service.dart';
 import 'package:sqflite/sqflite.dart';
@@ -42,16 +46,17 @@ class AppModule extends MainModule {
         Bind((i) => CornerStoneService(i.get())),
         Bind((i) => WorkCornerStoneService(i.get(), i.get())),
         Bind((i) => PdfService()),
+        Bind((i) => ProgressionPdfService()),
+        Bind((i) => MaterialRequirementPdfService()),
 
         //CONTROLLERS
         Bind((i) => HomeController(i.get())),
-
-        Bind(
-            (i) => WorkDashboardController(i.get(), i.get(), i.get(), i.get())),
-
+        Bind((i) => WorkDashboardController(
+            i.get(), i.get(), i.get(), i.get(), i.get())),
         Bind((i) => CornerStoneController(i.get())),
         Bind((i) => CornerStoneHistoryController(i.get())),
         Bind((i) => ReportsController(i.get())),
+        Bind((i) => MaterialRequirementController(i.get())),
         $AppController,
       ];
 
@@ -63,6 +68,8 @@ class AppModule extends MainModule {
         ModularRouter('/corner_stone_history',
             module: CornerStoneHistoryModule()),
         ModularRouter('/reports', module: ReportsModule()),
+        ModularRouter('/material_requirement',
+            module: MaterialRequirementModule())
       ];
 
   @override

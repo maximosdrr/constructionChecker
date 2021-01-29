@@ -22,8 +22,11 @@ class CheckListRepo implements ICheckListRepo {
   Future<List<ICheckList>> findMany(workId) async {
     try {
       if (db.isOpen) {
-        var checkListsSnapshot =
-            await db.query('checkList', where: 'workId=$workId');
+        var checkListsSnapshot = await db.query(
+          'checkList',
+          where: 'workId=$workId',
+          // orderBy: 'step',
+        );
         return checkListsSnapshot
             .map((checkList) => ICheckList.fromMap(checkList))
             .toList();
@@ -84,6 +87,18 @@ class CheckListRepo implements ICheckListRepo {
     try {
       if (db.isOpen) {
         await db.delete('checkList', where: 'id=$id');
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteByWorkId(id) async {
+    try {
+      if (db.isOpen) {
+        await db.delete('checkList', where: 'workId=$id');
         return true;
       }
       return false;

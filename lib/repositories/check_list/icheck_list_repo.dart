@@ -7,6 +7,7 @@ abstract class ICheckListRepo {
   Future<bool> checkListExists(id);
   Future<ICheckList> update(ICheckList checkList);
   Future<bool> delete(id);
+  Future<bool> deleteByWorkId(id);
   Future<List<ICheckList>> completedItens(workId);
   Future<List<ICheckList>> incompletedItens(workId);
 }

@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:constructionChecker/app/modules/home/home_controller.dart';
 import 'package:constructionChecker/models/check_list.dart';
 import 'package:constructionChecker/models/corner_stone_avg.dart';
 import 'package:constructionChecker/models/work_corner_stone.dart';
 import 'package:constructionChecker/services/check_list/icheck_list_service.dart';
 import 'package:constructionChecker/services/corner_stone/icorner_stone_service.dart';
+import 'package:constructionChecker/services/progression_pdf/progression_pdf.dart';
 import 'package:constructionChecker/services/work/iwork_service.dart';
 import 'package:constructionChecker/services/work_corner_stone/iwork_corner_stone_service.dart';
 import 'package:mobx/mobx.dart';
@@ -20,6 +23,7 @@ abstract class _WorkDashboardControllerBase with Store {
   final IWorkService workService;
   final IWorkCornerStoneService workCornerStoneService;
   final ICornerStoneService cornerStoneService;
+  final ProgressionPdfService progressionPdfService;
   final HomeController _homeController = Modular.get<HomeController>();
 
   _WorkDashboardControllerBase(
@@ -27,6 +31,7 @@ abstract class _WorkDashboardControllerBase with Store {
     this.workService,
     this.workCornerStoneService,
     this.cornerStoneService,
+    this.progressionPdfService,
   ) {
     getCheckLists();
     getWorkCornerStones();
@@ -93,5 +98,13 @@ abstract class _WorkDashboardControllerBase with Store {
 
   updateWorkCornerStone(IWorkCornerStone workCornerStone) async {
     return await workCornerStoneService.update(workCornerStone);
+  }
+
+  generateProgressionReport(File logoFile) async {
+    await this.progressionPdfService.save(
+          this.checkLists.value,
+          _homeController.selectedWork,
+          logoFile,
+        );
   }
 }

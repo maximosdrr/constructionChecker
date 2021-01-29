@@ -1,16 +1,11 @@
 import 'package:constructionChecker/app/modules/work_dashboard/tabs/check_list.dart';
 import 'package:constructionChecker/app/modules/work_dashboard/tabs/corner_stone.dart';
-import 'package:constructionChecker/app/modules/work_dashboard/tabs/stats.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:mobx/mobx.dart';
 import 'work_dashboard_controller.dart';
 
 class WorkDashboardPage extends StatefulWidget {
-  final String title;
-  const WorkDashboardPage({Key key, this.title = "WorkDashboard"})
-      : super(key: key);
+  const WorkDashboardPage({Key key}) : super(key: key);
 
   @override
   _WorkDashboardPageState createState() => _WorkDashboardPageState();

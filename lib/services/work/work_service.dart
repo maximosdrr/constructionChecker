@@ -26,7 +26,7 @@ class WorkService implements IWorkService {
   }
 
   Future<bool> deleteWork(id) async {
-    return await workRepo.delete(id);
+    return await workRepo.delete(id) && await checkListRepo.deleteByWorkId(id);
   }
 
   Future<IWork> editWork(IWork workToEdit) async {

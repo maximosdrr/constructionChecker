@@ -112,14 +112,6 @@ mixin _$ReportsController on _ReportsControllerBase, Store {
     });
   }
 
-  final _$generatePdfAsyncAction =
-      AsyncAction('_ReportsControllerBase.generatePdf');
-
-  @override
-  Future generatePdf(IReport report) {
-    return _$generatePdfAsyncAction.run(() => super.generatePdf(report));
-  }
-
   final _$finishAsyncAction = AsyncAction('_ReportsControllerBase.finish');
 
   @override

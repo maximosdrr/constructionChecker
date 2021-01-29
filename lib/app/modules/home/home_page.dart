@@ -69,10 +69,18 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             ListTile(
               title: Text("Relatorios"),
               subtitle: Text("Gerar Relatorio"),
-              trailing: Icon(Icons.article),
+              trailing: Icon(Icons.bar_chart),
               onTap: () {
                 Modular.to.pushNamed('/reports');
                 // Modular.to.pushNamed('/reports');
+              },
+            ),
+            ListTile(
+              title: Text("Requerimento de Material"),
+              subtitle: Text("Gerar Relatorio"),
+              trailing: Icon(Icons.article),
+              onTap: () {
+                Modular.to.pushNamed('/material_requirement');
               },
             ),
           ],

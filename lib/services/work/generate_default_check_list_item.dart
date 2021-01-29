@@ -529,7 +529,7 @@ List<ICheckList> generateDefaultCheckLists(int workId) {
     description: 'PASSAGEM DE CABOS ELÉTRICOS',
     payAtention:
         'CONFERIR CABO EXTRA PARA FASE, CONFERIR PASSAGEM EM TODOS OS PONTOS,CONFERIR UTILIZAÇÃO DE CORES CORRETO,VERIFICAR PASSAGEM DE REDE E LOGICA',
-    step: 'INST. ELÉTRICA',
+    step: 'INST.ELÉTRICA',
     percentageCompleted: 0,
     workId: workId,
   );

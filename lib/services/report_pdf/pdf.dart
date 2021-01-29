@@ -20,15 +20,15 @@ class PdfService {
     }
   }
 
-  save(IReport report) async {
+  save(IReport report, File logoFile) async {
     try {
       await _permissionHandler();
       String downloadsDirectory = await _getPathToDownload();
       String docId = DateTime.now().millisecond.toString();
 
       final pdf = pw.Document();
-
-      build(pdf, report);
+      final logo = await generateLogo(logoFile);
+      build(pdf, report, logo);
 
       File('$downloadsDirectory/relatorio$docId.pdf')
           .writeAsBytes(await pdf.save());
@@ -40,7 +40,7 @@ class PdfService {
     }
   }
 
-  build(pw.Document pdf, IReport report) {
+  build(pw.Document pdf, IReport report, pw.Image logo) {
     pdf.addPage(
       pw.MultiPage(
         maxPages: 100,
@@ -63,9 +63,14 @@ class PdfService {
                   ),
                 ),
                 pw.Container(
+                  alignment: pw.Alignment.center,
+                  margin: pw.EdgeInsets.only(top: 0, bottom: 30),
+                  child: logo,
+                ),
+                pw.Container(
                   alignment: pw.Alignment.topLeft,
                   margin: pw.EdgeInsets.only(
-                    bottom: 30,
+                    bottom: 15,
                   ),
                   child: pw.Text(
                     'Jhonatan Mike R. Cordeiro',
@@ -314,9 +319,16 @@ class PdfService {
     );
   }
 
+  Future<pw.Image> generateLogo(File logo) async {
+    final image = pw.MemoryImage(
+      logo.readAsBytesSync(),
+    );
+
+    return pw.Image(image, width: 200, height: 150);
+  }
+
   pw.Column generateAddedImages(IReport report) {
     List<pw.Widget> images = [];
-    print(report.fotosAdicionadas.length);
     for (var addedImage in report.fotosAdicionadas) {
       final image = pw.MemoryImage(
         addedImage.imagem.readAsBytesSync(),

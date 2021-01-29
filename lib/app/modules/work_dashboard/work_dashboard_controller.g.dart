@@ -7,8 +7,12 @@ part of 'work_dashboard_controller.dart';
 // **************************************************************************
 
 final $WorkDashboardController = BindInject(
-  (i) => WorkDashboardController(i<ICheckListService>(), i<IWorkService>(),
-      i<IWorkCornerStoneService>(), i<ICornerStoneService>()),
+  (i) => WorkDashboardController(
+      i<ICheckListService>(),
+      i<IWorkService>(),
+      i<IWorkCornerStoneService>(),
+      i<ICornerStoneService>(),
+      i<ProgressionPdfService>()),
   singleton: true,
   lazy: true,
 );

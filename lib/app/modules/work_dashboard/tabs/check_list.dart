@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:constructionChecker/app/modules/work_dashboard/widgets/check_list_tab/add_check_list_dialog.dart';
 import 'package:constructionChecker/app/modules/work_dashboard/widgets/check_list_tab/check_list_item.dart';
 import 'package:constructionChecker/app/modules/work_dashboard/work_dashboard_controller.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 
 class CheckListTab extends StatefulWidget {
@@ -61,6 +65,35 @@ class _CheckListTabState
           children: <Widget>[
             Container(
               height: 45,
+              child: FlatButton.icon(
+                label: Text(
+                  'Gerar Relatorio',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                icon: Icon(
+                  Icons.bar_chart,
+                  color: Colors.white,
+                ),
+                onPressed: () async {
+                  try {
+                    var logoFile = await pickLogoFile();
+                    if (logoFile != null) {
+                      await _checkListController
+                          .generateProgressionReport(logoFile);
+                      FlushbarHelper.createSuccess(
+                        message: 'Seu relatorio foi salvo na pasta downloads',
+                      ).show(context);
+                    }
+                  } catch (e) {
+                    print(e);
+                    FlushbarHelper.createError(
+                            message: 'Não foi possivel gerar o relatorio')
+                        .show(context);
+                  }
+                },
+              ),
             ),
             Container(
               height: 45,
@@ -69,5 +102,18 @@ class _CheckListTabState
         ),
       ),
     );
+  }
+
+  pickLogoFile() async {
+    File _image;
+    final picker = ImagePicker();
+
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      return _image;
+    }
+    return null;
   }
 }
