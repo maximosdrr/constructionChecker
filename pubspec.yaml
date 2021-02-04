@@ -57,6 +57,7 @@ dev_dependencies:
   modular_codegen: any
   mobx_codegen: ^1.1.2
   build_runner: ^1.10.1
+  flutter_launcher_icons: ^0.8.1
   flutter_test:
     sdk: flutter
 
@@ -99,3 +100,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "lib/assets/images/geobra_logo.png"

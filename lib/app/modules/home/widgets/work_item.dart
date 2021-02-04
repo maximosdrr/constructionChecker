@@ -62,7 +62,7 @@ class _WorkItemState extends State<WorkItem> {
                   ),
                   alignment: Alignment.topLeft,
                   child: Text(
-                    "Titulo: ${widget.work.name}",
+                    "Cliente: ${widget.work.client}",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,
@@ -72,7 +72,7 @@ class _WorkItemState extends State<WorkItem> {
                 ),
                 Column(
                   children: [
-                    generateCardField(widget.work.client, 'Cliente'),
+                    generateCardField(widget.work.name, 'Titulo'),
                     generateCardField(widget.work.constructionArea, 'Área: '),
                     generateCardField(widget.work.artNumber, 'ART: '),
                     generateCardField(
